@@ -6,8 +6,9 @@ const require = createRequire(import.meta.url);
 // Newer firebase-admin versions only support these sub-path imports
 const { initializeApp, cert } = require("firebase-admin/app");
 const { getAuth } = require("firebase-admin/auth");
-const serviceAccount = require("../firebase-admin_key.json"); // keep this file in .gitignore (project root)
-
+const serviceAccount = process.env.FB_SERVICE_KEY
+  ? JSON.parse(Buffer.from(process.env.FB_SERVICE_KEY, "base64").toString("utf8"))
+  : require("../firebase-admin_key.json");
 // ================= FIREBASE ADMIN =================
 // Initialize ONCE, with the service account key
 initializeApp({
